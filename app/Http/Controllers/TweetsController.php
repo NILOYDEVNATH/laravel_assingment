@@ -23,6 +23,24 @@ class TweetsController extends Controller
         TweetsModel::create([
             'body' => $body
         ]);
-        return redirect('tweets');
+        return redirect('/tweets/create/');
+    }
+
+    public function edit($id){
+        $tweets = TweetsModel::where('id',$id)->first();
+        return view('tweets.tweets_edit',['tweets'=>$tweets]);
+    }
+
+    public function update(Request $request, $id){
+        $tweets = TweetsModel::where('id',$id)->first();
+        $tweets->body = $request->body;
+        $tweets->save();
+        return redirect('/tweets');
+    }
+
+    public function delete($id){
+        $tweets = TweetsModel::find($id);
+        $tweets->delete();
+        return redirect('/tweets');
     }
 }
